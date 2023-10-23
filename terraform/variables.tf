@@ -19,7 +19,7 @@ variable "common_tags" {
 #   default = "chamarthiaparna.online"
 # }
 
-# variable "app_version" {
-#   # this is just to test variable is flowing from terraform to shell and then to ansible
-#   default = "100.100.100"
-# }
+variable "app_version" {
+  # this is just to test variable is flowing from terraform to shell and then to ansible
+  default = "100.100.100"
+}
