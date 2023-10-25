@@ -63,12 +63,12 @@ resource "null_resource" "delete_instance" {
   triggers = {
     ami_id = aws_ami_from_instance.catalogue_ami.id
   }
-}
 
-  provisioner "local-exec" {
+
+   provisioner "local-exec" {
      # Bootstrap script called with private_ip of each node in the cluster
      command = "aws ec2 terminate-instances --instance-ids ${module.catalogue_instance.id}"
-   
+   }
     depends_on = [ aws_ami_from_instance.catalogue_ami ]
  }
 # resource "aws_lb_target_group" "catalogue" {
