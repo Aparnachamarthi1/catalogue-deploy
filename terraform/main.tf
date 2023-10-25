@@ -58,19 +58,19 @@ resource "aws_ami_from_instance" "catalogue_ami" {
   depends_on = [ aws_ec2_instance_state.catalogue_instance ]
 }
 
-# resource "null_resource" "delete_instance" {
-#   # Changes to any instance of the cluster requires re-provisioning
-#   triggers = {
-#     ami_id = aws_ami_from_instance.catalogue_ami.id
-#   }
+resource "null_resource" "delete_instance" {
+  # Changes to any instance of the cluster requires re-provisioning
+  triggers = {
+    ami_id = aws_ami_from_instance.catalogue_ami.id
+  }
 
 
-#    provisioner "local-exec" {
-#      # Bootstrap script called with private_ip of each node in the cluster
-#      command = "aws ec2 terminate-instances --instance-ids ${module.catalogue_instance.id}"
-#    }
-#     depends_on = [ aws_ami_from_instance.catalogue_ami ]
-#  }
+   provisioner "local-exec" {
+     # Bootstrap script called with private_ip of each node in the cluster
+     command = "aws ec2 terminate-instances --instance-ids ${module.catalogue_instance.id}"
+   }
+    depends_on = [ aws_ami_from_instance.catalogue_ami ]
+ }
 # resource "aws_lb_target_group" "catalogue" {
 #   name     = "${var.project_name}-${var.common_tags.Component}-${var.env}"
 #   port     = 8080
