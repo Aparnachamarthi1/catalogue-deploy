@@ -111,7 +111,7 @@ resource "aws_launch_template" "catalogue" {
   #user_data = filebase64("${path.module}/catalogue.sh")
 }
 resource "aws_autoscaling_group" "catalogue" {
-  name                      = "${var.project_name}-${var.common_tags.Component}-${var.env}"
+  name                      = "${var.project_name}-${var.common_tags.Component}-${var.env}-${local.current_time}"
   max_size                  = 5
   min_size                  = 2
   health_check_grace_period = 300
@@ -133,7 +133,13 @@ resource "aws_autoscaling_group" "catalogue" {
   timeouts {
     delete = "15m"
   }
-} 
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
+
 
 resource "aws_autoscaling_policy" "catalogue" {
   autoscaling_group_name = aws_autoscaling_group.catalogue.name
